@@ -51,6 +51,14 @@ const VERSION = 'v1'
 /** Binds the ciphertext to this cookie: it can't be replayed as another cookie's value. */
 const AAD = Buffer.from(`${AI_SETTINGS_COOKIE}:${VERSION}`)
 
+/** Thrown in production when AI_SETTINGS_SECRET is missing or too short: visitors' keys can't be saved. */
+export class MissingAiSettingsSecretError extends Error {
+  constructor() {
+    super('AI_SETTINGS_SECRET is missing or shorter than 32 characters. Set it with: openssl rand -base64 48')
+    this.name = 'MissingAiSettingsSecretError'
+  }
+}
+
 /** The key from {@link encryptionKey}, computed once per process. */
 let cachedKey: Buffer | undefined
 /** Whether the missing-secret warning has been logged. */
@@ -71,6 +79,9 @@ function encryptionKey(): Buffer {
       hkdfSync('sha256', secret, 'webmcp-demo', 'ai-settings-cookie', 32),
     )
   } else {
+    // In production a per-process key silently breaks: serverless runtimes (Cloudflare Workers, Lambda) run many
+    // isolates, and a cookie sealed in one can't be opened in the next, so the saved key seems to vanish per request.
+    if (process.env.NODE_ENV === 'production') throw new MissingAiSettingsSecretError()
     if (!warned) {
       warned = true
       console.warn(

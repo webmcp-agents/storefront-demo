@@ -2,6 +2,7 @@ import { type AiSettingsStatus, isAiProviderId, MODEL_ID_PATTERN } from '@/lib/a
 import {
   type AiSettingsJar,
   MAX_API_KEY_LENGTH,
+  MissingAiSettingsSecretError,
   readAiSettingsJar,
   writeAiSettingsJar,
 } from '@/lib/ai/settings-cookie'
@@ -48,7 +49,16 @@ export async function POST(req: Request) {
     active: body.provider,
     providers: { ...jar.providers, [body.provider]: { model, apiKey } },
   }
-  await writeAiSettingsJar(next)
+  try {
+    await writeAiSettingsJar(next)
+  } catch (err) {
+    if (!(err instanceof MissingAiSettingsSecretError)) throw err
+    console.error(`[ai-settings] ${err.message}`)
+    return Response.json(
+      { error: "This site can't save API keys right now: it's missing its encryption secret." },
+      { status: 503, headers: noStore },
+    )
+  }
   return respond(next)
 }
 
