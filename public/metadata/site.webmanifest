@@ -1,0 +1,19 @@
+{
+  "name": "WebMCP Agents Storefront Demo",
+  "short_name": "WebMCP Demo",
+  "icons": [
+    {
+      "src": "/metadata/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/metadata/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#c8321a",
+  "background_color": "#faf9f7",
+  "display": "standalone"
+}

@@ -1,0 +1,13 @@
+{
+  "title": "WebMCP Agents",
+  "tagline": "Storefront demo: an AI agent searches, filters and shops through WebMCP tools.",
+  "colors": {
+    "background": "#faf9f7",
+    "foreground": "#1a1917",
+    "accent": "#c8321a"
+  },
+  "logo": "./public/logo.svg",
+  "faviconSrc": "./public/logo.svg",
+  "outputDir": "public/metadata",
+  "font": "Inter"
+}
