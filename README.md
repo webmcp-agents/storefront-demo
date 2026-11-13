@@ -1,8 +1,9 @@
-# Northline: a WebMCP storefront demo
+# Northline: a webmcp-agents storefront demo
 
-A demo clothing store where an AI assistant shops **through the page itself**. Every page exposes
-[WebMCP](https://github.com/webmachinelearning/webmcp) tools (search, filter, open a product, add to cart, check out,
-track an order), and the assistant calls them in the visitor's browser, so each step happens on screen.
+A demo clothing store built with [**webmcp-agents**](https://github.com/webmcp-agents/webmcp-agents), where an AI
+assistant shops **through the page itself**. Every page exposes WebMCP tools (search, filter, open a product, add to
+cart, check out, track an order), and the assistant calls them in the visitor's browser, so each step happens on
+screen.
 
 From a search to a placed order in three messages:
 
@@ -40,6 +41,21 @@ Other things to ask:
 | **Assistant filtering the shop** | **Order placed** |
 | ![The assistant's go_to and filter_products calls next to the shop filtered to one hoodie](docs/images/assistant.png) | ![The assistant's checkout calls next to the order confirmation](docs/images/order-placed.png) |
 
+## Built with webmcp-agents
+
+The agent side of this demo is [webmcp-agents](https://github.com/webmcp-agents/webmcp-agents). Each package does one job:
+
+| Package | What this demo uses it for |
+| --- | --- |
+| [`@webmcp-agents/core`](https://github.com/webmcp-agents/webmcp-agents/tree/main/packages/core) | `defineWebTool` and `WebToolError` for every store tool. It also provides the on-screen agent cursor, the field replay, and the confirmation that waits for your click before `place_order` runs. |
+| [`@webmcp-agents/react`](https://github.com/webmcp-agents/webmcp-agents/tree/main/packages/react) | `WebAgentsProvider` turns tools on per page. `useWebTool` binds a tool to a component's state, as `add_to_cart` and `place_order` do. |
+| [`@webmcp-agents/chat`](https://github.com/webmcp-agents/webmcp-agents/tree/main/packages/chat) | `defineWebAgent` for the shopper and orders agents, the `AgentChat` widget, and `createChatHandler`, which serves `/api/chat` on the AI SDK. |
+| [`@webmcp-agents/tools`](https://github.com/webmcp-agents/webmcp-agents/tree/main/packages/tools) | Ready-made tools: `get_time`, `get_location`, `get_page`, `go_to`, `go_back`, `scroll_to` and `set_theme`. |
+
+```bash
+bun add @webmcp-agents/core @webmcp-agents/react @webmcp-agents/chat @webmcp-agents/tools
+```
+
 ## How it works
 
 - **Tools live with the UI they drive.** App-wide tools are in [`webmcp-agents/tools`](webmcp-agents/tools). Tools
@@ -57,7 +73,7 @@ Other things to ask:
   The cart and placed orders persist in `localStorage`.
 
 Stack: Next.js 16 (App Router, Cache Components), React 19, Tailwind CSS 4, Radix UI, Zustand, React Hook Form + Zod,
-the AI SDK and `@webmcp-agents/*`.
+the AI SDK and [`@webmcp-agents/*`](https://github.com/webmcp-agents/webmcp-agents).
 
 ## Getting started
 
