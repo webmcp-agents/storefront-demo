@@ -168,7 +168,7 @@ the repo: [`wrangler.jsonc`](wrangler.jsonc), [`open-next.config.ts`](open-next.
    bun run deploy
    ```
 
-   The Worker is served at `https://webmcp-storefront-demo.<your-subdomain>.workers.dev`. To change the name, edit
+   The Worker is served at `https://webmcp-agents-storefront-demo.<your-subdomain>.workers.dev`. To change the name, edit
    `name` and `services[0].service` in `wrangler.jsonc`. Add a custom domain in the dashboard under
    **Workers & Pages → your Worker → Settings → Domains & Routes**.
 

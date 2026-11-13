@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   // The Worker's name: also its default URL (<name>.<account>.workers.dev). Keep `services[0].service` in sync.
-  "name": "webmcp-storefront-demo",
+  "name": "webmcp-agents-storefront-demo",
   // Built by `opennextjs-cloudflare build`: don't change these two unless the build output changes.
   "main": ".open-next/worker.js",
   "assets": {
@@ -15,7 +15,7 @@
     {
       // Lets the Worker call itself (used by OpenNext for caching and revalidation).
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "webmcp-storefront-demo",
+      "service": "webmcp-agents-storefront-demo",
     },
   ],
   // next/image optimization through Cloudflare Images.
