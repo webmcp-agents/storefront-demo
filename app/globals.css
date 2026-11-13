@@ -1,26 +1,371 @@
 @import "tailwindcss";
 
+/* ---------- Tokens ---------------------------------------------------- */
+/* One neutral system, one accent. Light by default, dark via system or data-theme. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf9f7;
+  --surface: #ffffff;
+  --surface-2: #f3f1ed;
+  --border: #e7e4de;
+  --border-strong: #d6d2ca;
+  --foreground: #1a1917;
+  --muted-foreground: #6b675f;
+  /* #c8321a: 5.1:1 on --background, 4.5:1 on --brand-soft, 5.3:1 under white text */
+  --brand: #c8321a;
+  --brand-foreground: #ffffff;
+  --brand-soft: #fbe9e5;
+  --success: #1f7a4d;
+  --shadow-card: 0 1px 2px rgb(26 25 23 / 0.04), 0 8px 24px -12px rgb(26 25 23 / 0.12);
+  --shadow-pop: 0 1px 2px rgb(26 25 23 / 0.06), 0 16px 40px -12px rgb(26 25 23 / 0.22);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  /* Edge for photos: pure black/white at 10%, never a tinted neutral (it fringes). */
+  --media-outline: oklch(0 0 0 / 0.1);
+  color-scheme: light;
+}
+
+/* shadcn/ui tokens, as aliases of the palette above: one definition serves light and dark, because each alias
+   resolves against whichever palette is active. muted/accent are shadcn's soft surfaces; the brand red is --brand. */
+:root {
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface);
+  --popover-foreground: var(--foreground);
+  --primary: var(--foreground);
+  --primary-foreground: var(--background);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface-2);
+  --accent: var(--surface-2);
+  --accent-foreground: var(--foreground);
+  --destructive: var(--brand);
+  --input: var(--border-strong);
+  --ring: var(--foreground);
+  --radius: 0.75rem;
+}
+
+:root[data-theme="dark"] {
+  --background: #0e0e0d;
+  --surface: #171715;
+  --surface-2: #1f1e1c;
+  --border: #2b2a27;
+  --border-strong: #3a3935;
+  --foreground: #f1efea;
+  --muted-foreground: #9b978e;
+  --brand: #ff5a3c;
+  --brand-foreground: #1a0a06;
+  --brand-soft: #2b1712;
+  --success: #4cc38a;
+  --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.02);
+  --shadow-pop: 0 16px 40px -12px rgb(0 0 0 / 0.7);
+  --media-outline: oklch(1 0 0 / 0.1);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #0e0e0d;
+    --surface: #171715;
+    --surface-2: #1f1e1c;
+    --border: #2b2a27;
+    --border-strong: #3a3935;
+    --foreground: #f1efea;
+    --muted-foreground: #9b978e;
+    --brand: #ff5a3c;
+    --brand-foreground: #1a0a06;
+    --brand-soft: #2b1712;
+    --success: #4cc38a;
+    --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.02);
+    --shadow-pop: 0 16px 40px -12px rgb(0 0 0 / 0.7);
+    --media-outline: oklch(1 0 0 / 0.1);
+    color-scheme: dark;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-success: var(--success);
+  /* shadcn/ui tokens (aliases in :root above) */
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  /* Tailwind's radius scale stays as is (the app's rounded-lg/xl); --radius is only read by input-group's calc(). */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --shadow-card: var(--shadow-card);
+  --shadow-pop: var(--shadow-pop);
+  --ease-out: var(--ease-out);
+  --ease-standard: var(--ease-standard);
+  --radius-card: 14px;
+
+  /* Type scale for UI sizes between Tailwind's steps: one name per role, line-height paired. */
+  --text-micro: 0.6875rem; /* 11px: badges, counters */
+  --text-micro--line-height: 1.45;
+  --text-caption: 0.8125rem; /* 13px: metadata, labels, chips */
+  --text-caption--line-height: 1.45;
+  --text-body: 0.9375rem; /* 15px: list titles, large buttons */
+  --text-body--line-height: 1.5;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------- Base ------------------------------------------------------- */
+html {
+  /* Exactly the sticky header's height (4rem). Next.js reads this after each navigation: a page whose top sits at
+     the header's bottom edge counts as in view, so it isn't scrolled. Any larger value makes Next scroll every page. */
+  scroll-padding-top: 4rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-feature-settings: "cv11", "ss01";
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--brand);
+  color: var(--brand-foreground);
+}
+
+/* Photos get a hairline edge so light images don't dissolve into light surfaces. Declared before :focus-visible so
+   a focused image link still shows the focus ring. */
+/* Anchor targets get a little air below the header without touching the root scroll-padding above. */
+:target {
+  scroll-margin-top: 1rem;
+}
+
+@layer base {
+  .media {
+    outline: 1px solid var(--media-outline);
+    outline-offset: -1px;
+  }
+
+  /* One focus ring everywhere. It follows the element's own radius; never reshape the element on focus.
+     Layered so utilities (outline-none, focus-visible:outline-offset-*) can override it per component. */
+  :focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 2px;
+  }
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Press + hover ---------------------------------------------- */
+/* Every clickable thing acknowledges the finger: scale to 0.96, never while disabled. */
+.press {
+  transition-property: scale, background-color, border-color, color, opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .press:active:not(:disabled):not([aria-disabled="true"]) {
+    scale: 0.96;
+  }
+}
+
+.zoom-img {
+  transition: scale 500ms var(--ease-out);
+}
+
+/* Hover only where hover exists, motion only where it is welcome. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .group:hover .zoom-img {
+    scale: 1.04;
+  }
+}
+
+/* ---------- Entrance / exit motion ------------------------------------ */
+/* Movement runs only under no-preference; reduced motion keeps the fade so state changes still read. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+    filter: blur(4px);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes slide-in-right {
+  from {
+    translate: 100% 0;
+  }
+}
+@keyframes slide-out-right {
+  to {
+    translate: 100% 0;
+  }
+}
+@keyframes slide-in-bottom {
+  from {
+    translate: 0 100%;
+  }
+}
+@keyframes slide-out-bottom {
+  to {
+    translate: 0 100%;
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.animate-fade {
+  animation: fade-in 200ms var(--ease-out) both;
+}
+.animate-rise,
+.animate-pop,
+.animate-enter {
+  animation: fade-in 200ms var(--ease-out) both;
+}
+
+/* Hero entrance: semantic chunks staggered 100ms apart (set --stagger: 0, 1, 2 … on each). */
+.animate-enter {
+  animation-delay: calc(var(--stagger, 0) * 100ms);
+}
+
+.skeleton {
+  background: var(--surface-2);
+  border-radius: 8px;
+}
+
+/* Radix dialog: overlay fades; sheets fade under reduced motion. */
+[data-overlay][data-state="open"],
+[data-sheet][data-state="open"] {
+  animation: fade-in 200ms var(--ease-out);
+}
+[data-overlay][data-state="closed"],
+[data-sheet][data-state="closed"] {
+  animation: fade-out 150ms var(--ease-out) forwards;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-rise {
+    animation: rise-in 260ms var(--ease-out) both;
+  }
+  .animate-pop {
+    animation: pop-in 180ms var(--ease-out) both;
+  }
+  .animate-enter {
+    animation-name: enter;
+    animation-duration: 300ms;
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--surface-2) 25%,
+      color-mix(in srgb, var(--surface-2) 60%, var(--surface)) 50%,
+      var(--surface-2) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+
+  /* Sheets slide: the destination carries meaning. Exits are shorter than entrances. */
+  [data-sheet="right"][data-state="open"] {
+    animation: slide-in-right 260ms var(--ease-out);
+  }
+  [data-sheet="right"][data-state="closed"] {
+    animation: slide-out-right 180ms var(--ease-out) forwards;
+  }
+  [data-sheet="bottom"][data-state="open"] {
+    animation: slide-in-bottom 260ms var(--ease-out);
+  }
+  [data-sheet="bottom"][data-state="closed"] {
+    animation: slide-out-bottom 180ms var(--ease-out) forwards;
+  }
+}
+
+/* ---------- Contextual swap ------------------------------------------- */
+/* Two labels stacked in one cell; the inactive one cross-fades out ("Add to cart" ⇄ "Added"). Both stay in the DOM,
+   so the swap is a transition and reverses mid-flight. */
+.swap {
+  display: inline-grid;
+}
+.swap > * {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: opacity 300ms var(--ease-standard);
+}
+.swap > [data-active="false"] {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .swap > * {
+    transition-property: opacity, scale, filter;
+  }
+  .swap > [data-active="false"] {
+    scale: 0.25;
+    filter: blur(4px);
+  }
+}
+
+/* Hide the native number spinners in compact fields. */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Smooth page-to-page cross-fade where supported. */
+@view-transition {
+  navigation: auto;
 }
