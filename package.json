@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "if [ -n \"$WORKERS_CI\" ]; then CLOUDFLARE_BUILD=1 opennextjs-cloudflare build; else next build; fi",
     "start": "next start",
     "lint": "eslint",
     "preview": "CLOUDFLARE_BUILD=1 opennextjs-cloudflare build && opennextjs-cloudflare preview",
