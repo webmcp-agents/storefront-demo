@@ -8,7 +8,6 @@ const forCloudflare = process.env.CLOUDFLARE_BUILD === "1";
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
-    agentFeedback: true,
     // @webmcp-agents/* are `link:`ed to the local monorepo (bun link in each package): let Turbopack follow the
     // symlinks there, and to the packages' own dependencies in its node_modules. Rebuild dist with
     // `pnpm --filter "./packages/*" dev` in the monorepo to see library changes.
