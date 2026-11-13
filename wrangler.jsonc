@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // The Worker's name: also its default URL (<name>.<account>.workers.dev). Keep `services[0].service` in sync.
+  "name": "webmcp-storefront-demo",
+  // Built by `opennextjs-cloudflare build`: don't change these two unless the build output changes.
+  "main": ".open-next/worker.js",
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "compatibility_date": "2026-11-01",
+  // nodejs_compat: node:crypto (the AI settings cookie) and the rest of the Node APIs Next.js uses.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "services": [
+    {
+      // Lets the Worker call itself (used by OpenNext for caching and revalidation).
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "webmcp-storefront-demo",
+    },
+  ],
+  // next/image optimization through Cloudflare Images.
+  "images": {
+    "binding": "IMAGES",
+  },
+  // Plain config only. Set OPENAI_API_KEY and AI_SETTINGS_SECRET as secrets: `bunx wrangler secret put <NAME>`.
+  "vars": {
+    "WEB_AGENTS_MODEL": "openai/gpt-5.5",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}

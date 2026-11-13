@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+// Set by the Cloudflare scripts (preview / deploy / upload). Cache Components currently hang on the Workers runtime
+// (opennextjs/opennextjs-cloudflare#1450, vercel/next.js#94880), so the Worker build renders without them until the
+// adapter ships the fix. Everything else (next dev, next build, next start) keeps them on.
+const forCloudflare = process.env.CLOUDFLARE_BUILD === "1";
+
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
@@ -13,8 +18,8 @@ const nextConfig: NextConfig = {
   },
   // The dev badge sits where the chat launcher is (bottom-left in development).
   devIndicators: false,
-  cacheComponents: true,
-  partialPrefetching: true,
+  cacheComponents: !forCloudflare,
+  partialPrefetching: !forCloudflare,
   turbopack: {
     // The chat handler lazy-loads whichever AI SDK provider WEB_AGENTS_MODEL names. We install OpenAI's and DeepSeek's (visitors can pick them in AI settings),
     // so the others resolve to a stub that explains how to install them.
@@ -40,3 +45,7 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// Gives `next dev` the Cloudflare bindings from wrangler.jsonc (getCloudflareContext), as on the deployed Worker.
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
+initOpenNextCloudflareForDev()
