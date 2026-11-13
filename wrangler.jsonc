@@ -23,8 +23,14 @@
     "binding": "IMAGES",
   },
   // Plain config only. Set OPENAI_API_KEY and AI_SETTINGS_SECRET as secrets: `bunx wrangler secret put <NAME>`.
+  // Keep variables set in the dashboard (AI_SETTINGS_SECRET) instead of replacing them with `vars` on deploy.
+  "keep_vars": true,
   "vars": {
     "WEB_AGENTS_MODEL": "openai/gpt-5.5",
+  },
+  // Workers Paid: CPU time per request (default 30s, max 5 min). Free caps it at 10ms, too little for Next.js SSR.
+  "limits": {
+    "cpu_ms": 300000,
   },
   "observability": {
     "enabled": true,
