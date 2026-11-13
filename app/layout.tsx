@@ -2,6 +2,7 @@ import { Providers } from '@/app/providers'
 import { SiteFooter } from '@/components/layout/site-footer'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SkipLink } from '@/components/layout/skip-link'
+import { chatRestoreScript } from '@/lib/chat-restore'
 import { geistMono, geistSans } from '@/lib/fonts'
 import { themeInitScript } from '@/lib/theme'
 import '@webmcp-agents/chat/chat.css'
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: chatRestoreScript }} />
       </head>
       <body className="flex min-h-full flex-col">
         <Providers>

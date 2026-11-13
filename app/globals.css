@@ -369,3 +369,29 @@ input[type="number"] {
 @view-transition {
   navigation: auto;
 }
+
+/* A reload with the docked chat open (lib/chat-restore.ts): the page is docked before the first paint, this holds the
+   panel's place until <AgentChat> mounts, and the panel appears in place instead of sliding in. Colours match the
+   panel's own in @webmcp-agents/chat/chat.css. */
+html[data-wa-chat-restoring] body::before {
+  content: "";
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: calc(var(--agent-z, 2147483000) - 3);
+  width: var(--wa-chat-inset-left);
+  border-right: 1px solid rgba(17, 17, 17, 0.1);
+  background: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-wa-chat-restoring] body::before {
+    border-right-color: rgba(255, 255, 255, 0.12);
+    background: #1c1c1f;
+  }
+}
+html[data-theme="dark"][data-wa-chat-restoring] body::before {
+  border-right-color: rgba(255, 255, 255, 0.12);
+  background: #1c1c1f;
+}
+html[data-wa-chat-restoring] .wa-chat__panel {
+  transition: none;
+}
