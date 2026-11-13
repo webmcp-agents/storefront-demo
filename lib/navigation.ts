@@ -17,3 +17,6 @@ export const ACCOUNT_LINKS: NavLink[] = [
   { href: '/orders', label: 'Your orders' },
   { href: '/cart', label: 'Cart' },
 ]
+
+/** This demo's source code, linked from the header and footer. */
+export const REPO_URL = 'https://github.com/webmcp-agents/storefront-demo'

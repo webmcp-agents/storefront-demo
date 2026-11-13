@@ -2,6 +2,7 @@
 
 import { AiSettings } from '@/components/ai-settings/ai-settings'
 import { CartLink } from '@/components/layout/cart-link'
+import { GithubLink } from '@/components/layout/github-link'
 import { MainNav } from '@/components/layout/main-nav'
 import { SiteLogo } from '@/components/layout/site-logo'
 import { ThemeToggle } from '@/components/layout/theme-toggle'
@@ -19,6 +20,7 @@ export function SiteHeader() {
         <div className="ms-auto flex items-center gap-0.5 sm:gap-1.5">
           <SearchDialog />
           <AiSettings />
+          <GithubLink />
           <ThemeToggle />
           <CartLink cart={header.cart} />
         </div>

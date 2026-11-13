@@ -1,6 +1,7 @@
 import { FooterNav } from '@/components/layout/footer-nav'
+import { GithubIcon } from '@/components/shared/github-icon'
 import { Separator } from '@/components/ui/separator'
-import { ACCOUNT_LINKS, SHOP_LINKS } from '@/lib/navigation'
+import { ACCOUNT_LINKS, REPO_URL, SHOP_LINKS } from '@/lib/navigation'
 
 export function SiteFooter() {
   return (
@@ -24,8 +25,17 @@ export function SiteFooter() {
         />
       </div>
       <Separator />
-      <div className="px-4 py-5 text-center text-caption text-muted-foreground">
-        Demo store with static data. Photos from Unsplash.
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 py-5 text-caption text-muted-foreground">
+        <p>Demo store with static data. Photos from Unsplash.</p>
+        <a
+          href={REPO_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-sm transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        >
+          <GithubIcon className="size-4" />
+          Source on GitHub
+        </a>
       </div>
     </footer>
   )
